@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  BACKOFFICE
+  CUSTOMER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
+model User {
+  id                     Int          @id @default(autoincrement())
+  uuid                   String       @default(uuid()) @db.VarChar(65)
+  forceResetpwd          Boolean      @default(false) @map("force_resetpwd")
+  username               String       @db.VarChar(100)
+  passwordHash           String       @db.VarChar(255) @map("password_hash")
+  passwordRecoveryToken  String?      @db.VarChar(255) @map("password_recovery_token")
+  email                  String       @unique @db.VarChar(255)
+  emailVerified          Boolean      @default(false)
+  fullName               String?      @db.VarChar(255) @map("full_name")
+  role                   UserRole     
+  status                 Status       @default(INACTIVE)
+  lastLoginAt            DateTime?    @db.Timestamp(3) @map("last_login_at")
+  createdAt              DateTime     @default(now()) @map("created_at")
+  updatedAt              DateTime?    @db.Timestamp(3) @map("updated_at")
+  deletedAt              DateTime?    @db.Timestamp(3) @map("deleted_at")
+
+
+  @@index([email], map: "idx_user_email")
+  @@index([username], map: "idx_user_username")
+  @@map("users")
+}
