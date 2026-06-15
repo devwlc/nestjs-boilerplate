@@ -6,6 +6,7 @@ import { PrismaService } from '@/src/database/prisma.service';
 import { appConfig, envValidationSchema } from './config';
 import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from '@/modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AuthModule } from '@/modules/auth/auth.module';
         ],
       }),
     }),
+    UsersModule,
     AuthModule,
   ],
   providers: [

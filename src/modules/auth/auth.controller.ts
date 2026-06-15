@@ -19,7 +19,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(JwtRefreshGuard)
-  @Post('refresh')
+  @Post('refresh-token')
   async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshToken(refreshTokenDto);
   }
