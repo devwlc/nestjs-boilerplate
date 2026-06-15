@@ -26,7 +26,7 @@ model User {
   passwordRecoveryToken  String?      @db.VarChar(255) @map("password_recovery_token")
   email                  String       @unique @db.VarChar(255)
   emailVerified          Boolean      @default(false)
-  fullName               String?      @db.VarChar(255) @map("full_name")
+  fullName               String      @db.VarChar(255) @map("full_name")
   role                   UserRole     
   status                 Status       @default(INACTIVE)
   lastLoginAt            DateTime?    @db.Timestamp(3) @map("last_login_at")

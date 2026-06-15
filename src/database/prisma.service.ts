@@ -1,10 +1,22 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
+  constructor(private configService: ConfigService) {
+    //create the driver adapter
+    const adapter = new PrismaPg({
+      connectionString: configService.getOrThrow<string>('DATABASE_URL'),
+    });
+    super({ adapter });
+  }
+
   async onModuleInit() {
-    //need to use the $queryRaw and $executeRaw methods
     await this.$connect();
   }
 
