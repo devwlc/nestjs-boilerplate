@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { PrismaService } from '@/src/database/prisma.service';
-import { envValidationSchema } from '@/src/config/env.validation';
+import { appConfig, envValidationSchema } from './config';
 import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from '@/modules/auth/auth.module';
 
@@ -11,6 +11,7 @@ import { AuthModule } from '@/modules/auth/auth.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [appConfig],
       validationSchema: envValidationSchema,
     }),
     LoggerModule.forRootAsync({
